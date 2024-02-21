@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Study TodoApp</title>
+   <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #333;
+              background-image: url('/img/study.jpg'); /* 背景画像の設定 */
+            background-size: cover; /* 背景画像をウィンドウに合わせて表示 */
+            background-position: center; /* 背景画像を中央に配置 */
+          
+        }
+        .today {
+            color: rgb(255, 255, 255);
+            font-size:30px;
+        }
+
+        h1 {
+            color: rgb(255, 255, 255);
+            font-size:50px;
+        }
+
+        h3 {
+            color: #17a2b8;
+            margin-top: 30px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="text"], input[type="date"], input[type="submit"], input[type="checkbox"] {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px; /* 入力フィールドの幅を調整 */
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            width: auto;
+            padding: 10px 20px; /* ボタンのパディングを調整 */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        input[type="checkbox"] {
+            transform: scale(1.5);
+            margin-right: 5px;
+        }
+
+        input[type="text"][style="text-decoration:line-through"] {
+            text-decoration: line-through;
+        }
+
+        /* 枠で囲むスタイル */
+        .task-container {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 20px auto; /* 中央に配置 */
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px; /* 最大幅を設定 */
+            transition: transform 0.3s ease;
+        }
+
+        /* テキストのスタイル */
+        .task-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* ボタンのスタイル */
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* メニューバーのスタイル */
+        .menu-bar {
+            background-color: #007bff;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            transition: width 0.5s ease;
+            overflow: hidden;
+        }
+
+        .menu-bar:hover {
+            width: 250px;
+        }
+
+        .menu-bar form {
+            display: block;
+        }
+
+        .menu-btn {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .menu-items {
+            padding: 10px 0;
+        }
+
+        .menu-items form {
+            display: block;
+        }
+
+        .menu-items form input[type="submit"] {
+            background-color: transparent;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-items form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>勉強リスト</h1>
+        <p class="today">今日の時間: <span th:text="${todayWithTime}"></span></p>
+
+
+
+ <!-- メニューバー -->
+    <div class="menu-bar">
+        <button class="menu-btn">メニュー</button>
+        <div class="menu-items">
+            <form method="get" action="/">
+                <input type="submit" class="submit-btn" value="ホームへ" />
+            </form>
+            <form method="get" action="/index2">
+                <input type="submit" class="submit-btn" value="復習リストへ" />
+            </form>
+         
+        </div>
+    </div>
+
+        <!-- 未完了の勉強タスク -->
+        <div class="task-container">
+            <h3>勉強タスク</h3>
+            <form method="post" th:action="@{/updateStudy}" th:each="studyTodo : ${studyTodos}" class="task">
+                <input type="checkbox" name="done_flg" value="1"/>
+                <input type="hidden" name="id" th:value="${studyTodo.id}" />
+                <input type="text" name="title" th:value="${studyTodo.title}" placeholder="タスク名" />
+                <input type="date" name="time_limit" th:value="${studyTodo.time_limit}" />
+                 <!-- 進捗度の選択 -->
+        <input type="hidden" name="progress" th:value="${studyTodo.progress}" />
+        <select name="progress">
+            <option th:selected="${studyTodo.progress == 0}" value="0">0%</option>
+            <option th:selected="${studyTodo.progress == 25}" value="25">25%</option>
+            <option th:selected="${studyTodo.progress == 50}" value="50">50%</option>
+            <option th:selected="${studyTodo.progress == 75}" value="75">75%</option>
+            <option th:selected="${studyTodo.progress == 100}" value="100">100%</option>
+        </select>
+        
+                <input type="submit" value="更新" />
+            </form>
+        </div>
+        
+     
+     
+        <!-- 完了済みの勉強タスク -->
+        <div class="task-container">
+            <h3>完了済み勉強タスク</h3>
+            <form method="post" th:action="@{/updateStudy}" th:each="doneStudyTodo : ${doneStudyTodos}" class="task completed">
+                <input type="checkbox" name="done_flg" value="1"/>
+                <input type="hidden" name="id" th:value="${doneStudyTodo.id}" />
+                <input type="text" name="title" th:value="${doneStudyTodo.title}" placeholder="タスク名" />
+                <input type="date" name="time_limit" th:value="${doneStudyTodo.time_limit}" />
+                 <!-- 進捗度の選択 -->
+        <input type="hidden" name="progress" th:value="${studyTodo.progress}" />
+        <select name="progress">
+            <option th:selected="${studyTodo.progress == 0}" value="0">0%</option>
+            <option th:selected="${studyTodo.progress == 25}" value="25">25%</option>
+            <option th:selected="${studyTodo.progress == 50}" value="50">50%</option>
+            <option th:selected="${studyTodo.progress == 75}" value="75">75%</option>
+            <option th:selected="${studyTodo.progress == 100}" value="100">100%</option>
+        </select>
+                <input type="submit" value="更新" />
+            </form>
+        </div>
+       
+
+        <!-- 完了済みタスクを削除 -->
+        <form method="post" th:action="@{/deleteStudy}" class="task-container">
+            <input type="submit" value="完了済みを削除" class="delete-btn" />
+        </form>
+
+        <!-- 新しい勉強タスクの追加フォーム -->
+        <div class="task-container">
+            <h3>新しい勉強タスクを追加</h3>
+            <form method="post" th:action="@{/addStudyTodo}" th:object="${studyTodo}">
+                <input type="text" th:field="*{title}" placeholder="タスク名" />
+                <input type="date" th:field="*{time_limit}" />
+                 <!-- 進捗度の選択 -->
+        <input type="hidden" name="progress" th:value="${studyTodo.progress}" />
+        <select name="progress">
+            <option th:selected="${studyTodo.progress == 0}" value="0">0%</option>
+            <option th:selected="${studyTodo.progress == 25}" value="25">25%</option>
+            <option th:selected="${studyTodo.progress == 50}" value="50">50%</option>
+            <option th:selected="${studyTodo.progress == 75}" value="75">75%</option>
+            <option th:selected="${studyTodo.progress == 100}" value="100">100%</option>
+        </select>
+                <input type="submit" value="追加" />
+            </form>
+        </div>
+
+        <!-- ホームへのリンク -->
+        <div class="home-link">
+            <form method="get" action="/">
+                <input type="submit" value="ホーム" />
+            </form>
+        </div>
+    </div>
+</body>
+</html>

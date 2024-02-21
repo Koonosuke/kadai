@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.todoo.app.mapper.TodoMapper">
+  <select id="selectAll" resultType="com.todoo.app.entity.Todo">
+    select * from todo_items
+  </select>
+  
+  <select id="selectAllStudy" resultType="com.todoo.app.entity.Todo">
+    select * from study_items
+  </select>
+  
+  
+   <select id="selectAllStudyed" resultType="com.todoo.app.entity.Todo">
+    select * from studyed_items
+  </select>
+
+
+  <select id="selectIncomplete" resultType="com.todoo.app.entity.Todo">
+    select * from todo_items where done_flg = 0
+  </select>
+
+  <select id="selectComplete" resultType="com.todoo.app.entity.Todo">
+    select * from todo_items where done_flg = 1
+  </select>
+  
+  <select id="selectStudyIncomplete" resultType="com.todoo.app.entity.Todo">
+    select * from study_items where done_flg = 0
+  </select>
+
+  <select id="selectStudyComplete" resultType="com.todoo.app.entity.Todo">
+    select * from study_items where done_flg = 1
+  </select>
+  
+  
+   <select id="selectStudyedIncomplete" resultType="com.todoo.app.entity.Todo">
+    select * from studyed_items where done_flg = 0
+  </select>
+  
+   <select id="selectStudyedComplete" resultType="com.todoo.app.entity.Todo">
+    select * from studyed_items where done_flg = 1
+  </select>
+  
+  <insert id="add" parameterType="com.todoo.app.entity.Todo">
+    insert into todo_items (title,time_limit)
+    values (#{title},to_date(#{time_limit},'yy-mm-dd'))
+  </insert>
+  
+  <insert id="addStudyTodo" parameterType="com.todoo.app.entity.Todo">
+    INSERT INTO study_items (title, time_limit)
+    VALUES (#{title}, #{time_limit})
+  </insert>
+  
+  <insert id="addStudyed" parameterType="com.todoo.app.entity.Todo">
+    INSERT INTO studyed_items (title, time_limit)
+    VALUES (#{title}, #{time_limit})
+  </insert>
+  
+  <update id="update" parameterType="com.todoo.app.entity.Todo">
+    update todo_items set
+      title = #{title},
+      time_limit = to_date(#{time_limit},'yy-mm-dd'),
+      done_flg = #{done_flg}
+    where id = #{id}
+  </update>
+
+  <update id="updateStudy" parameterType="com.todoo.app.entity.Todo">
+    update study_items set
+      title = #{title},
+      time_limit = to_date(#{time_limit},'yy-mm-dd'),
+      done_flg = #{done_flg},
+      progress = #{progress}  
+    where id = #{id}
+  </update>
+  
+  <update id="updateStudyed" parameterType="com.todoo.app.entity.Todo">
+    update studyed_items set
+      title = #{title},
+      time_limit = to_date(#{time_limit},'yy-mm-dd'),
+      done_flg = #{done_flg}
+    where id = #{id}
+  </update>
+
+  <delete id="delete" parameterType="com.todoo.app.entity.Todo">
+    delete from todo_items where done_flg = 1
+  </delete>
+
+  <delete id="deleteStudy" parameterType="com.todoo.app.entity.Todo">
+    delete from study_items where done_flg = 1
+  </delete>
+  
+   <delete id="deleteStudyed" parameterType="com.todoo.app.entity.Todo">
+    delete from studyed_items where done_flg = 1
+  </delete>
+  
+</mapper>
