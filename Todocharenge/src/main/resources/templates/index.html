@@ -1,219 +1,56 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Date</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoList</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            text-align: center;
-            color: #333;
-            background-image: url('/img/haikei.jpg');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+             background-image: url('/img/keshiki.jpg');
             background-size: cover;
             background-position: center;
+            
         }
-
-        .today {
-            color: #6c757d;
-            font-size:30px;
-        }
-
-        h1 {
-            color: rgb(255, 255, 255);
-            font-size:50px;
-        }
-
-        h3 {
-            color: #17a2b8;
-            margin-top: 30px;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        input[type="text"], input[type="date"], input[type="submit"], input[type="checkbox"] {
-            padding: 10px;
-            margin: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 300px;
-        }
-
-        input[type="submit"] {
-            background-color: #28a745;
-            color: white;
-            cursor: pointer;
-            width: auto;
-            padding: 10px 20px;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #218838;
-        }
-
-        input[type="checkbox"] {
-            transform: scale(1.5);
-            margin-right: 5px;
-        }
-
-        input[type="text"][style="text-decoration:line-through"] {
-            text-decoration: line-through;
-        }
-
-        .task-container {
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            margin: 20px auto;
+        .container {
+            text-align: center;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            transition: transform 0.3s ease;
-        }
-
-        .task-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .submit-btn {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .menu-bar {
-            background-color: #007bff;
-            padding: 10px 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 200px;
-            transition: width 0.5s ease;
-            overflow: hidden;
-        }
-
-        .menu-bar:hover {
-            width: 250px;
-        }
-
-        .menu-bar form {
-            display: block;
-        }
-
-        .menu-btn {
-            background-color: transparent;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .menu-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .menu-items {
-            padding: 10px 0;
-        }
-
-        .menu-items form {
-            display: block;
-        }
-
-        .menu-items form input[type="submit"] {
-            background-color: transparent;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .menu-items form input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-
-        .drop-zone {
-            border: 2px dashed #ccc;
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
+        }
+        h1 {
+            color: #333;
             margin-bottom: 20px;
+        }
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        a:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>予定表</h1>
-    <p class="today">今日の時間: <span th:text="${todayWithTime}"></span></p>
-
-    <!-- メニューバー -->
-    <div class="menu-bar">
-        <button class="menu-btn">メニュー</button>
-        <div class="menu-items">
-			 <form method="get" action="/">
-                <input type="submit" class="submit-btn" value="ホームへ" />
-            </form>
-         
-          
-        </div>
-    </div>
-
-    <!-- マイタスク -->
-    <div class="task-container">
-        <h3 class="task-title">マイタスク</h3>
-        <div>
-            <form method="post" th:action="@{/update}" th:each="todo : ${todos}" th:sorted="${todoList}">
-                <input type="checkbox" name="done_flg" value="1"/>
-                <input type="hidden" name="id" th:value="${todo.id}" />
-                <input type="text" name="title" th:value="${todo.title}" />
-                <input type="date" name="time_limit" th:value="${todo.time_limit}" />
-                <input type="submit" class="submit-btn" th:value="${todo.done_flg == 1 ? '戻す' : '完了する'}" />
-            </form>
-        </div>
-    </div>
-
-    <!-- 完了済み -->
-    <div class="task-container">
-        <h3 class="task-title">完了済み</h3>
-        <div>
-            <form method="post" th:action="@{/update}" th:each="todo : ${doneTodos}" th:sorted="${doneTodoList}">
-                <input type="checkbox" name="done_flg" value="1"/>
-                <input type="hidden" name="id" th:value="${todo.id}" />
-                <input type="text" name="title" th:value="${todo.title}" style="text-decoration:line-through"/>
-                <input type="date" name="time_limit" th:value="${todo.time_limit}" />
-                <input type="submit" class="submit-btn" th:value="${todo.done_flg == 1 ? '未完了に戻す' : '再度完了する'}" />
-            </form>
-        </div>
-    </div>
-
-    <!-- 完了済みタスクを削除 -->
-    <div class="task-container">
-        <form method="post" th:action="@{/delete}">
-            <input type="submit" class="submit-btn" value="完了済みを削除" />
-        </form>
-    </div>
-
-    <!-- 新しいタスクを追加 -->
-    <div class="task-container">
-        <h3 class="task-title">新しいタスクを追加</h3>
-        <form method="post" th:action="@{/add}">
-            <input type="text" name="title" placeholder="タスク名" style="width: 400px;" />
-            <input type="date" name="time_limit" placeholder="期限" />
-            <input type="submit" class="submit-btn" value="追加" />
-        </form>
+    <div class="container">
+        <h1>TodoList</h1>
+        <a href="/index3">予定表</a>
+        <a href="/index1">勉強リストへ</a>
+        <a href="/index2">復習リストへ</a>
     </div>
 </body>
 </html>

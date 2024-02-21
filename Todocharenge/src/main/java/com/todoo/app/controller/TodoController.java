@@ -24,19 +24,19 @@ public class TodoController {
         return "image";
     }
     @RequestMapping(value="/")
-    public String index5() {
-    	return "index5";
+    public String index() {
+    	return "index";
     }
 
-    @RequestMapping(value="/index")
-    public String index(Model model) {
+    @RequestMapping(value="/index3")
+    public String index3(Model model) {
         List<Todo> list = todoMapper.selectIncomplete();
         List<Todo> doneList = todoMapper.selectComplete();
         model.addAttribute("todos",list);
         model.addAttribute("doneTodos",doneList);
         SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         model.addAttribute("todayWithTime", dateTimeFormat.format(new Date()));
-        return "index";
+        return "index3";
     }
 
     @RequestMapping(value="/index1")
