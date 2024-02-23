@@ -24,7 +24,9 @@ public class TodoController {
         return "image";
     }
     @RequestMapping(value="/")
-    public String index() {
+    public String index(Model model) {
+    	 SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+         model.addAttribute("todayWithTime", dateTimeFormat.format(new Date()));
     	return "index";
     }
 
@@ -68,19 +70,19 @@ public class TodoController {
     @RequestMapping(value="/add")
     public String add(Todo todo) {
         todoMapper.add(todo);
-        return "redirect:/";
+        return "redirect:/index3";
     }
 
     @RequestMapping(value="/update")
     public String update(Todo todo) {
         todoMapper.update(todo);
-        return "redirect:/";
+        return "redirect:/index3";
     }
 
     @RequestMapping(value="/delete")
     public String delete() {
         todoMapper.delete();
-        return "redirect:/";
+        return "redirect:/index3";
     }
     
     
