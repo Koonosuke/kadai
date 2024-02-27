@@ -182,15 +182,10 @@
                 <input type="hidden" name="id" th:value="${studyTodo.id}" />
                 <input type="text" name="title" th:value="${studyTodo.title}" placeholder="タスク名" />
                 <input type="date" name="time_limit" th:value="${studyTodo.time_limit}" />
+               
                  <!-- 進捗度の選択 -->
-        <input type="hidden" name="progress" th:value="${studyTodo.progress}" />
-        <select name="progress">
-            <option th:selected="${studyTodo.progress == 0}" value="0">0%</option>
-            <option th:selected="${studyTodo.progress == 25}" value="25">25%</option>
-            <option th:selected="${studyTodo.progress == 50}" value="50">50%</option>
-            <option th:selected="${studyTodo.progress == 75}" value="75">75%</option>
-            <option th:selected="${studyTodo.progress == 100}" value="100">100%</option>
-        </select>
+    <input type="number" id="progress" name="progress" min="0" max="100" required th:value="${studyTodo.progress}" />%
+
         
                 <input type="submit" value="更新" />
             </form>
@@ -206,15 +201,11 @@
                 <input type="hidden" name="id" th:value="${doneStudyTodo.id}" />
                 <input type="text" name="title" th:value="${doneStudyTodo.title}" placeholder="タスク名" />
                 <input type="date" name="time_limit" th:value="${doneStudyTodo.time_limit}" />
+                
                  <!-- 進捗度の選択 -->
-        <input type="hidden" name="progress" th:value="${studyTodo.progress}" />
-        <select name="progress">
-            <option th:selected="${studyTodo.progress == 0}" value="0">0%</option>
-            <option th:selected="${studyTodo.progress == 25}" value="25">25%</option>
-            <option th:selected="${studyTodo.progress == 50}" value="50">50%</option>
-            <option th:selected="${studyTodo.progress == 75}" value="75">75%</option>
-            <option th:selected="${studyTodo.progress == 100}" value="100">100%</option>
-        </select>
+       <input type="number" id="progress" name="progress" min="0" max="100" required th:value="${studyTodo.progress}" />%
+       
+
                 <input type="submit" value="更新" />
             </form>
         </div>
@@ -232,14 +223,8 @@
                 <input type="text" th:field="*{title}" placeholder="タスク名" />
                 <input type="date" th:field="*{time_limit}" />
                  <!-- 進捗度の選択 -->
-        <input type="hidden" name="progress" th:value="${studyTodo.progress}" />
-        <select name="progress">
-            <option th:selected="${studyTodo.progress == 0}" value="0">0%</option>
-            <option th:selected="${studyTodo.progress == 25}" value="25">25%</option>
-            <option th:selected="${studyTodo.progress == 50}" value="50">50%</option>
-            <option th:selected="${studyTodo.progress == 75}" value="75">75%</option>
-            <option th:selected="${studyTodo.progress == 100}" value="100">100%</option>
-        </select>
+      <input type="number" id="progress" name="progress" min="0" max="100" required th:value="${studyTodo.progress}" />%
+
                 <input type="submit" value="追加" />
             </form>
         </div>

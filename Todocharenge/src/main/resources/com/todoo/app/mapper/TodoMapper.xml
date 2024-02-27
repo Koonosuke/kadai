@@ -48,8 +48,8 @@
   </insert>
   
   <insert id="addStudyTodo" parameterType="com.todoo.app.entity.Todo">
-    INSERT INTO study_items (title, time_limit)
-    VALUES (#{title}, #{time_limit})
+    INSERT INTO study_items (title, time_limit,progress)
+    VALUES (#{title}, #{time_limit},#{progress})
   </insert>
   
   <insert id="addStudyed" parameterType="com.todoo.app.entity.Todo">

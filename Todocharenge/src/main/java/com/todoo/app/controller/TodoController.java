@@ -30,16 +30,7 @@ public class TodoController {
     	return "index";
     }
 
-    @RequestMapping(value="/index3")
-    public String index3(Model model) {
-        List<Todo> list = todoMapper.selectIncomplete();
-        List<Todo> doneList = todoMapper.selectComplete();
-        model.addAttribute("todos",list);
-        model.addAttribute("doneTodos",doneList);
-        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        model.addAttribute("todayWithTime", dateTimeFormat.format(new Date()));
-        return "index3";
-    }
+
 
     @RequestMapping(value="/index1")
     public String index1(Model model) {
@@ -52,45 +43,6 @@ public class TodoController {
         model.addAttribute("todayWithTime", dateTimeFormat.format(new Date()));
         return "index1";
     }
- 
-    @RequestMapping(value="/index2")
-    public String index2(Model model) {
-        List<Todo> studyList = todoMapper.selectStudyedIncomplete();
-        List<Todo> doneStudyedList = todoMapper.selectStudyedComplete();
-        model.addAttribute("studyedTodos", studyList);
-        model.addAttribute("doneStudyedTodos", doneStudyedList);
-        model.addAttribute("studyedTodo", new Todo()); // 新しいTodoオブジェクトを作成してモデルに追加
-        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        model.addAttribute("todayWithTime", dateTimeFormat.format(new Date()));
-        return "index2";
-    }
-    
-    
-
-    @RequestMapping(value="/add")
-    public String add(Todo todo) {
-        todoMapper.add(todo);
-        return "redirect:/index3";
-    }
-
-    @RequestMapping(value="/update")
-    public String update(Todo todo) {
-        todoMapper.update(todo);
-        return "redirect:/index3";
-    }
-
-    @RequestMapping(value="/delete")
-    public String delete() {
-        todoMapper.delete();
-        return "redirect:/index3";
-    }
-    
-    
-   
-    
-    
-  
-    
     
     @RequestMapping(value="/addStudyTodo")
     public String addStudyTodo(Todo studyTodo) {
@@ -114,29 +66,76 @@ public String deleteStudy() {
    
    
    
-   
-   
-   
-   @RequestMapping(value="/addStudyed")
-   public String addStudyed(Todo studyedTodo) {
-       todoMapper.addStudyed(studyedTodo);
-       return "redirect:/index2";
-   }
-   
-   @RequestMapping(value="/updateStudyed")
-   public String updateStudyed(Todo studyedTodo) {
-       todoMapper.updateStudyed(studyedTodo);
-       return "redirect:/index2";
-   } 
-   
-   
-   @RequestMapping(value="/deleteStudyed")
-public String deleteStudyed() {
-    todoMapper.deleteStudyed();
-    return "redirect:/index2";
-}
-   
-   
-   
+    @RequestMapping(value="/index2")
+    public String index2(Model model) {
+        List<Todo> studyList = todoMapper.selectStudyedIncomplete();
+        List<Todo> doneStudyedList = todoMapper.selectStudyedComplete();
+        model.addAttribute("studyedTodos", studyList);
+        model.addAttribute("doneStudyedTodos", doneStudyedList);
+        model.addAttribute("studyedTodo", new Todo()); // 新しいTodoオブジェクトを作成してモデルに追加
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        model.addAttribute("todayWithTime", dateTimeFormat.format(new Date()));
+        return "index2";
+    }
+    
+     @RequestMapping(value="/addStudyed")
+    public String addStudyed(Todo studyedTodo) {
+        todoMapper.addStudyed(studyedTodo);
+        return "redirect:/index2";
+    }
+    
+    @RequestMapping(value="/updateStudyed")
+    public String updateStudyed(Todo studyedTodo) {
+        todoMapper.updateStudyed(studyedTodo);
+        return "redirect:/index2";
+    } 
+    
+    
+    @RequestMapping(value="/deleteStudyed")
+ public String deleteStudyed() {
+     todoMapper.deleteStudyed();
+     return "redirect:/index2";
+ }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    @RequestMapping(value="/index3")
+    public String index3(Model model) {
+        List<Todo> list = todoMapper.selectIncomplete();
+        List<Todo> doneList = todoMapper.selectComplete();
+        model.addAttribute("todos",list);
+        model.addAttribute("doneTodos",doneList);
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        model.addAttribute("todayWithTime", dateTimeFormat.format(new Date()));
+        return "index3";
+    }
+    
+    
+    
+     @RequestMapping(value="/add")
+    public String add(Todo todo) {
+        todoMapper.add(todo);
+        return "redirect:/index3";
+    }
+
+    @RequestMapping(value="/update")
+    public String update(Todo todo) {
+        todoMapper.update(todo);
+        return "redirect:/index3";
+    }
+
+    @RequestMapping(value="/delete")
+    public String delete() {
+        todoMapper.delete();
+        return "redirect:/index3";
+    }
+    
+     
    
 }
